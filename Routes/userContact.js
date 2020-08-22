@@ -123,20 +123,14 @@ router.post('/searchContact', contactInfoValidation(contactSchema.contactInfo3, 
         try {
             await contact_model.find({ phone: phone }, (err, data) => {
                 if (err) return console.log('search '+err);
-                
-                if(data)
+
+                if(data.length)
                 {
-                    res.render('contactPage', {
-                        info: data,
-                        name: data.name,
-                        phone: data.phone,
-                        id: data._id
-                    });
+                    res.send(data);
                 } 
                 else 
                 {
-                    //req.flash('warning',`${phone} number not found!`);
-                    res.redirect('/');
+                    res.send({ message: `${phone} number not found!`});
                 }
             });
         }
